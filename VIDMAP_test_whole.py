@@ -45,7 +45,7 @@ if __name__ == "__main__":
 
   if len(sys.argv) == 1:
     print("Usage:")
-    print("  python VIDMAP_test_whole.py [artifact] [single/framediff/2layer] [input_video_file]")
+    print("  python VIDMAP_test_whole.py [artifact] [single/framediff/2layer] [input_video_file] [num_frame]")
     exit(0)
 
   atype = sys.argv[1]
@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
   outputdir = VIDMAPtype
 
-  vidData = skvideo.io.vread(videoInputFile, as_grey=True)[:, :, :, 0].astype(np.float32)
+  vidData = skvideo.io.vread(videoInputFile, num_frames=5, as_grey=True)[:, :, :, 0].astype(np.float32)
 
   win = np.array(skvideo.utils.gen_gauss_window(2, 7.0/6.0))
 
@@ -168,7 +168,7 @@ if __name__ == "__main__":
 
   saver.restore(sess, outputdir + "/%s/trained.ckpt" % (atype,))
 
-  writer = skvideo.io.FFmpegWriter("%s_prediction_%s.avi" % (atype,VIDMAPtype), outputdict={'-vcodec':'rawvideo', '-pix_fmt':'yuv420p'}) 
+  writer = skvideo.io.FFmpegWriter("%s_%s_prediction_%s.avi" % (videoInputFile,atype,VIDMAPtype), outputdict={'-vcodec':'rawvideo', '-pix_fmt':'yuv420p'}) 
 
   if atype == "droppedFrames":
       for fidx in range(vidData.shape[0]-3):
