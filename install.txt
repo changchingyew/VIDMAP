@@ -1,0 +1,11 @@
+Installation steps of Python2.7, virtualenv and Tensorflow 1.x to 
+run VIDMAP_test_whole inferencing
+
+sudo apt install python2
+curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+python2 get-pip.py 
+pip2 install virtualenv
+virtualenv -p /usr/bin/python2 venv
+source venv/bin/activate
+pip2 install -r requirements.txt 
+python2 VIDMAP_test_whole.py compression 2layer ../corruptvideo/Green\ corruption.mkv 

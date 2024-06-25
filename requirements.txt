@@ -1,0 +1,4 @@
+grpcio==1.20.1
+scikit-learn
+scikit-video
+tensorflow==1.15.0
