@@ -10,11 +10,12 @@ for video in "$directory"/*.mkv
 do
     if [ -f "$video" ]; then
         echo $video
-        artifacts=("aliasing" "banding" "combing" "compression" "contour" "droppedFrames" "hitsh264" "hitsmpeg2" "upscaling")
+        # artifacts=("banding" "hitsh264")
+        artifacts=("hitsh264")        
         for artifact in "${artifacts[@]}"
         do
             echo $artifact
-            python2 VIDMAP_test_whole.py $artifact 2layer $video
+            python2 VIDMAP_test_whole.py $artifact single $video
         done
     fi
 done
