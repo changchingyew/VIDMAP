@@ -3,6 +3,7 @@ import skvideo.io
 import skvideo.utils
 import numpy as np
 import sys
+import csv
 
 try:
     import Queue
@@ -168,7 +169,14 @@ if __name__ == "__main__":
 
   saver.restore(sess, outputdir + "/%s/trained.ckpt" % (atype,))
 
-  writer = skvideo.io.FFmpegWriter("%s_%s_prediction_%s.avi" % (videoInputFile,atype,VIDMAPtype), outputdict={'-vcodec':'rawvideo', '-pix_fmt':'yuv420p'}) 
+  writer = skvideo.io.FFmpegWriter("%s_%s_prediction_%s.avi" % (os.path.basename(videoInputFile),atype,VIDMAPtype), outputdict={'-vcodec':'rawvideo', '-pix_fmt':'yuv420p'}) 
+
+  csv_file_path = "output.csv"
+  csvfile = open(csv_file_path, 'a')
+  file_exists = os.path.isfile(csv_file_path) and os.path.getsize(csv_file_path) > 0
+  csvwriter = csv.writer(csvfile)
+  if not file_exists:
+    csvwriter.writerow(["VideoInputFile", "VIDMAPtype", "Frame#", "ArtefactType", "probability"])
 
   if atype == "droppedFrames":
       for fidx in range(vidData.shape[0]-3):
@@ -188,8 +196,10 @@ if __name__ == "__main__":
 
         writer.writeFrame(pimg*255)
         print("Frame #%d, probability of %s: %0.3f" % (fidx, atype, p1[0, 1]))
+        csvwriter.writerow([os.path.basename(videoInputFile), VIDMAPtype, fidx, atype, p1[0, 1]])
 
       writer.close()
+      csvfile.close()
   else:
     if (VIDMAPtype == "single") or (VIDMAPtype == "2layer"):
       for fidx, frame in enumerate(vidData):
@@ -198,9 +208,11 @@ if __name__ == "__main__":
         pimg, p1 = sess.run([prob1, pred], feed_dict={xinput: preproc})
 
         writer.writeFrame(pimg*255)
-        print("Frame #%d, probability of %s: %0.3f" % (fidx, atype, p1[0, 1]))
+        print("%s-Frame #%d, probability of %s: %0.3f" % (os.path.basename(videoInputFile), fidx, atype, p1[0, 1]))
+        csvwriter.writerow([os.path.basename(videoInputFile), VIDMAPtype, fidx, atype, p1[0, 1]])
 
       writer.close()
+      csvfile.close()
     elif (VIDMAPtype == "framediff"):
       for fidx in range(vidData.shape[0]-1):
         frame1 = vidData[[fidx]]
@@ -210,7 +222,9 @@ if __name__ == "__main__":
         pimg, p1 = sess.run([prob1, pred], feed_dict={xinput: preproc})
 
         print("Frame #%d, probability of %s: %0.3f" % (fidx, atype, p1[0, 1]))
+        csvwriter.writerow([os.path.basename(videoInputFile), VIDMAPtype, fidx, atype, p1[0, 1]])
 
         writer.writeFrame(pimg*255)
 
       writer.close()
+      csvfile.close()
