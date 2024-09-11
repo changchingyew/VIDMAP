@@ -1,4 +1,11 @@
 grpcio==1.20.1
 scikit-learn
 scikit-video
+scikit-image
 tensorflow==1.15.0
+
+future
+imageio==2.6.1
+sporco
+
+opencv-python==4.1.2.30
