@@ -24,7 +24,7 @@ def genericpospatcher(hdf5_im, hdf5_lab, hdf5_trainset, idx=0, traintest=0):
   width = 256+40
   height = 256+40
 
-  lst480p = np.array(glob.glob("/mnt/hd3/scenes/480p/*avi"))
+  lst480p = np.array(glob.glob("/home/data3/cyew3/bigbugbunny/*avi"))
   lst1080p = np.array(glob.glob("/mnt/hd3/scenes/1080p/*avi"))
   lst480p = np.sort(lst480p)
   lst1080p = np.sort(lst1080p)
@@ -99,7 +99,7 @@ def genericnegpatcher(hdf5_im, hdf5_lab, hdf5_trainset, idx=0, traintest=0):
   width = 256+40
   height = 256+40
 
-  lst480p = np.array(glob.glob("/mnt/hd3/scenes/480p/*avi"))
+  lst480p = np.array(glob.glob("/home/data3/cyew3/bigbugbunny/*avi"))
   lst1080p = np.array(glob.glob("/mnt/hd3/scenes/1080p/*avi"))
   lst480p = np.sort(lst480p)
   lst1080p = np.sort(lst1080p)

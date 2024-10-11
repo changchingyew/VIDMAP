@@ -24,7 +24,7 @@ def genericpospatcher(hdf5_im, hdf5_lab, hdf5_trainset, offsets, idx=0, traintes
   width = 256
   height = 256
 
-  lst480p = np.array(glob.glob("/mnt/hd3/scenes/480p/*avi"))
+  lst480p = np.array(glob.glob("/home/data3/cyew3/bigbugbunny/*avi"))
   lst1080p = np.array(glob.glob("/mnt/hd3/scenes/1080p/*avi"))
   lst480p = np.sort(lst480p)
   lst1080p = np.sort(lst1080p)
@@ -131,7 +131,7 @@ def genericnegpatcher(hdf5_im, hdf5_lab, hdf5_traintest, offsets, idx=0, trainte
   width = 256
   height = 256
 
-  lst480p = np.array(glob.glob("/mnt/hd3/scenes/480p/*avi"))
+  lst480p = np.array(glob.glob("/home/data3/cyew3/bigbugbunny/*avi"))
   lst1080p = np.array(glob.glob("/mnt/hd3/scenes/1080p/*avi"))
   lst480p = np.sort(lst480p)
   lst1080p = np.sort(lst1080p)
@@ -203,7 +203,7 @@ n_channels = 3
 
 # sf = single frame
 # fd = frame diff
-f = h5py.File('/mnt/hd2/hitsdataset_sf_mpeg2.hdf5', mode='w')
+f = h5py.File('/home/data3/cyew3/VIDMAP/hitsdataset_sf_mpeg2.hdf5', mode='w')
 
 image_patches = f.create_dataset('image_patches', (n_total_images, n_channels, patch_height, patch_width), dtype='float')
 image_patches.dims[0].label = 'batch'

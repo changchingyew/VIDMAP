@@ -24,8 +24,8 @@ def genericpospatcher(hdf5_im, hdf5_lab, hdf5_trainset, offsets, idx=0, traintes
   width = 256
   height = 256
 
-  lst480p = np.array(glob.glob("/mnt/hd3/scenes/480p/*avi"))
-  lst1080p = np.array(glob.glob("/mnt/hd3/scenes/1080p/*avi"))
+  lst480p = np.array(glob.glob("/media/admin-kms2/hmazlan/cyew3/bigbugbunny/480p/*avi"))
+  lst1080p = np.array(glob.glob("/media/admin-kms2/hmazlan/cyew3/bigbugbunny/1080p/*avi"))
   lst480p = np.sort(lst480p)
   lst1080p = np.sort(lst1080p)
 
@@ -39,25 +39,25 @@ def genericpospatcher(hdf5_im, hdf5_lab, hdf5_trainset, offsets, idx=0, traintes
     for fidx, fname in enumerate(lst):
       print fidx, n_samples, fname
       #vid = skvideo.io.vread(fname, as_grey=True).astype(np.float32)
-      cmd = "ffmpeg -y -nostats -loglevel 0 -i %s -codec:v libx264 -g 50 -mpv_flags +strict_gop -bsf noise=2000000 -b:v 40000k /tmp/test_distorted.mp4" % (fname,)
+      cmd = "ffmpeg -y -nostats -loglevel 0 -i %s -codec:v libx264 -g 50 -mpv_flags +strict_gop -bsf noise=2000000 -b:v 40000k /media/admin-kms2/hmazlan/cyew3/VIDMAP/test_distorted.mp4" % (fname,)
       os.system(cmd)
 
-      cmd = "ffmpeg -y -nostats -loglevel 0 -ec 0 -i /tmp/test_distorted.mp4 -vcodec rawvideo -pix_fmt yuv420p /tmp/test_distorted.avi"
+      cmd = "ffmpeg -y -nostats -loglevel 0 -ec 0 -i /media/admin-kms2/hmazlan/cyew3/VIDMAP/test_distorted.mp4 -vcodec rawvideo -pix_fmt yuv420p /media/admin-kms2/hmazlan/cyew3/VIDMAP/test_distorted.avi"
       os.system(cmd)
 
-      cmd = "ffmpeg -y -nostats -loglevel 0 -i %s -codec:v mpeg2video -b:v 40000k /tmp/test_pristine.mp4" % (fname,)
+      cmd = "ffmpeg -y -nostats -loglevel 0 -i %s -codec:v mpeg2video -b:v 40000k /media/admin-kms2/hmazlan/cyew3/VIDMAP/test_pristine.mp4" % (fname,)
       os.system(cmd)
 
-      cmd = "ffmpeg -y -nostats -loglevel 0 -ec 0 -i /tmp/test_pristine.mp4 -vcodec rawvideo -pix_fmt yuv420p /tmp/test_pristine.avi"
+      cmd = "ffmpeg -y -nostats -loglevel 0 -ec 0 -i /media/admin-kms2/hmazlan/cyew3/VIDMAP/test_pristine.mp4 -vcodec rawvideo -pix_fmt yuv420p /media/admin-kms2/hmazlan/cyew3/VIDMAP/test_pristine.avi"
       os.system(cmd)
 
-      vid_dis = skvideo.io.vread("/tmp/test_distorted.avi", as_grey=True).astype(np.float32)
-      vid_pris = skvideo.io.vread("/tmp/test_pristine.avi", as_grey=True).astype(np.float32)
+      vid_dis = skvideo.io.vread("/media/admin-kms2/hmazlan/cyew3/VIDMAP/test_distorted.avi", as_grey=True).astype(np.float32)
+      vid_pris = skvideo.io.vread("/media/admin-kms2/hmazlan/cyew3/VIDMAP/test_pristine.avi", as_grey=True).astype(np.float32)
 
-      os.remove("/tmp/test_distorted.mp4")
-      os.remove("/tmp/test_pristine.mp4")
-      os.remove("/tmp/test_distorted.avi")
-      os.remove("/tmp/test_pristine.avi")
+      os.remove("/media/admin-kms2/hmazlan/cyew3/VIDMAP/test_distorted.mp4")
+      os.remove("/media/admin-kms2/hmazlan/cyew3/VIDMAP/test_pristine.mp4")
+      os.remove("/media/admin-kms2/hmazlan/cyew3/VIDMAP/test_distorted.avi")
+      os.remove("/media/admin-kms2/hmazlan/cyew3/VIDMAP/test_pristine.avi")
 
       T, H, W, C = vid_dis.shape
 
@@ -109,7 +109,7 @@ def genericpospatcher(hdf5_im, hdf5_lab, hdf5_trainset, offsets, idx=0, traintes
         #skimage.io.imsave("dump/patch_%d.png" % (idx,), badimg)
 
         #print diff
-        #skimage.io.imsave("/tmp/test_%d.png" % (limit,), np.hstack((goodpatch.astype(np.uint8), badpatch.astype(np.uint8))))
+        #skimage.io.imsave("/home/data3/cyew3/VIDMAP/test_%d.png" % (limit,), np.hstack((goodpatch.astype(np.uint8), badpatch.astype(np.uint8))))
         #preprocess = preprocess[:, 5:-5, 5:-5]
         hdf5_im[idx] = badpatch
         hdf5_lab[idx] = 1
@@ -133,8 +133,8 @@ def genericnegpatcher(hdf5_im, hdf5_lab, hdf5_traintest, offsets, idx=0, trainte
   height = 256
 
   #lst = glob.glob("/mnt/hd3/databases/video/film_pristine/480p/*/*mpg")
-  lst480p = np.array(glob.glob("/mnt/hd3/scenes/480p/*avi"))
-  lst1080p = np.array(glob.glob("/mnt/hd3/scenes/1080p/*avi"))
+  lst480p = np.array(glob.glob("/media/admin-kms2/hmazlan/cyew3/bigbugbunny/480p/*avi"))
+  lst1080p = np.array(glob.glob("/media/admin-kms2/hmazlan/cyew3/bigbugbunny/*avi"))
   lst480p = np.sort(lst480p)
   lst1080p = np.sort(lst1080p)
 
@@ -147,10 +147,10 @@ def genericnegpatcher(hdf5_im, hdf5_lab, hdf5_traintest, offsets, idx=0, trainte
   for fidx, fname in enumerate(lst):
     print fidx, n_samples, fname
     #vid = skvideo.io.vread(fname, as_grey=True).astype(np.float32)
-    cmd = "ffmpeg -y -nostats -loglevel 0 -i %s -codec:v h264 -b:v 40000k /tmp/test_pristine.mp4" % (fname,)
+    cmd = "ffmpeg -y -nostats -loglevel 0 -i %s -codec:v h264 -b:v 40000k /media/admin-kms2/hmazlan/cyew3/VIDMAP/test_pristine.mp4" % (fname,)
     os.system(cmd)
 
-    vid_pris = skvideo.io.vread("/tmp/test_pristine.mp4", inputdict={'-ec': '0'}, as_grey=True).astype(np.float32)
+    vid_pris = skvideo.io.vread("/media/admin-kms2/hmazlan/cyew3/VIDMAP/test_pristine.mp4", inputdict={'-ec': '0'}, as_grey=True).astype(np.float32)
 
     T, H, W, C = vid_pris.shape
 
@@ -173,7 +173,7 @@ def genericnegpatcher(hdf5_im, hdf5_lab, hdf5_traintest, offsets, idx=0, trainte
       goodpatch = vid_pris[t-1:t+2, y:y+height, x:x+width, 0]
 
       #print diff
-      #skimage.io.imsave("/tmp/test_%d.png" % (limit,), np.hstack((goodpatch.astype(np.uint8), badpatch.astype(np.uint8))))
+      #skimage.io.imsave("/home/data3/cyew3/VIDMAP/test_%d.png" % (limit,), np.hstack((goodpatch.astype(np.uint8), badpatch.astype(np.uint8))))
 
       hdf5_im[idx] = goodpatch
       hdf5_lab[idx] = 0
@@ -198,7 +198,7 @@ n_channels = 3
 
 # sf = single frame
 # fd = frame diff
-f = h5py.File('/mnt/hd2/hitsdataset_sf_h264_2.hdf5', mode='w')
+f = h5py.File('/media/admin-kms2/hmazlan/cyew3/VIDMAP/hitsdataset_sf_h264_2.hdf5', mode='w')
 
 image_patches = f.create_dataset('image_patches', (n_total_images, n_channels, patch_height, patch_width), dtype='float')
 image_patches.dims[0].label = 'batch'
